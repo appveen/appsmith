@@ -4,6 +4,7 @@ const commonlocators = require("../../../locators/commonlocators.json");
 const publish = require("../../../locators/publishWidgetspage.json");
 const dsl = require("../../../fixtures/tableWidgetDsl.json");
 const explorer = require("../../../locators/explorerlocators.json");
+import homePage from "../../../locators/HomePage.json";
 
 describe("Table Widget Functionality", function() {
   before(() => {
@@ -372,10 +373,6 @@ describe("Table Widget Functionality", function() {
       "response.body.responseMeta.status",
       201,
     );
-
-    cy.get(".t--new-button")
-      .first()
-      .click();
     cy.get(".t--BuildFromScratch").click();
     cy.get(explorer.addWidget).click();
     cy.dragAndDropToCanvas("switchwidget", { x: 200, y: 200 });
@@ -399,7 +396,7 @@ describe("Table Widget Functionality", function() {
     );
     cy.wait("@updateLayout");
     cy.PublishtheApp();
-    cy.wait(3000);
+    cy.wait(2000);
     cy.getTableDataSelector("0", "0").then((element) => {
       cy.get(element).should("be.visible");
     });
@@ -409,7 +406,7 @@ describe("Table Widget Functionality", function() {
     cy.get(".t--switch-widget-active")
       .first()
       .click();
-    cy.wait(3000);
+    cy.wait(1000);
     cy.getTableDataSelector("0", "0").then((element) => {
       cy.get(element).should("be.visible");
     });
