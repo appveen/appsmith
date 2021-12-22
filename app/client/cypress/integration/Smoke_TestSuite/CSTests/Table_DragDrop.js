@@ -23,9 +23,17 @@ describe("Table Widget DragDrop cases", function() {
     cy.wait("@updateLayout");
     //cy.openPropertyPane("tablewidget");
     //cy.widgetText("Table1", widgetsPage.tableWidget, commonlocators.tableInner);
-    cy.testJsontext("tabledata", jsContext, false);
-    cy.wait(2000);
-    cy.wait("@updateLayout");
+
+    // cy.get(".CodeMirror textarea").click().clear().paste(jsContext);
+    // cy.get(".CodeMirror textarea").focus();
+    // cy.updateCodeInput
+
+    cy.get(".t--property-control-tabledata").then(($el) => {
+      cy.updateCodeInput($el, jsContext);
+    });
+
+    //cy.testJsontext("tabledata", jsContext, false);
+    //cy.wait("@updateLayout");
     // cy.wait("@updateLayout").then(({ response }) => {
     //   cy.log("Response is :" + JSON.stringify(response.body))
     //   //expect(response.body.data.dsl.children[1].tableData).to.eq(jsContext);
