@@ -6,11 +6,12 @@ const dsl = require("../../../fixtures/tableWidgetDsl.json");
 const explorer = require("../../../locators/explorerlocators.json");
 
 describe("Table Widget Functionality", function() {
-  before(() => {
-    cy.addDsl(dsl);
-  });
+  // before(() => {
+  //   //cy.addDsl(dsl);
+  // });
 
   it("Table Widget Functionality", function() {
+    cy.addDsl(dsl);
     cy.openPropertyPane("tablewidget");
 
     /**
@@ -362,7 +363,7 @@ describe("Table Widget Functionality", function() {
 */
 
   it("Table Widget Functionality To Check with changing schema of tabledata", () => {
-    cy.visit("/applications");
+    cy.NavigateToHome();
     cy.get(".t--new-button")
       .first()
       .click();
@@ -383,7 +384,7 @@ describe("Table Widget Functionality", function() {
           ] : [
             {
               employee_name: "john"
-            },
+            }
           ];
       }}`,
     );
