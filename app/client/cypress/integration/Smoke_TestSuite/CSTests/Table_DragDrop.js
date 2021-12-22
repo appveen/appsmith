@@ -1,9 +1,20 @@
-const widgetsPage = require("../../../../locators/Widgets.json");
-const commonlocators = require("../../../../locators/commonlocators.json");
-const explorer = require("../../../../locators/explorerlocators.json");
+const widgetsPage = require("../../../locators/Widgets.json");
+const commonlocators = require("../../../locators/commonlocators.json");
+const explorer = require("../../../locators/explorerlocators.json");
+import homePage from "../../../locators/HomePage.json";
 
 describe("Table Widget DragDrop cases", function() {
   it("1. Table Widget Functionality To Check with changing schema of tabledata", () => {
+    cy.NavigateToHome();
+    cy.get(homePage.createNew)
+      .first()
+      .click({ force: true });
+    cy.wait("@createNewApplication").should(
+      "have.nested.property",
+      "response.body.responseMeta.status",
+      201,
+    );
+
     cy.get(explorer.addWidget).click();
     cy.dragAndDropToCanvas("switchwidget", { x: 200, y: 200 });
     cy.dragAndDropToCanvas("tablewidget", { x: 200, y: 300 });
