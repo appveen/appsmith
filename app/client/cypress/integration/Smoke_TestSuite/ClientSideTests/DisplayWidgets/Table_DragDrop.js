@@ -1,8 +1,6 @@
-const widgetsPage = require("../../../locators/Widgets.json");
-const commonlocators = require("../../../locators/commonlocators.json");
-const explorer = require("../../../locators/explorerlocators.json");
-import homePage from "../../../locators/HomePage.json";
-const publish = require("../../../locators/publishWidgetspage.json");
+const explorer = require("../../../../locators/explorerlocators.json");
+import homePage from "../../../../locators/HomePage.json";
+const publish = require("../../../../locators/publishWidgetspage.json");
 
 describe("Table Widget DragDrop cases", function() {
   it("1. Table Widget Functionality To Check with changing schema of tabledata", () => {
@@ -21,23 +19,9 @@ describe("Table Widget DragDrop cases", function() {
     cy.dragAndDropToCanvas("tablewidget", { x: 200, y: 300 });
     cy.wait(1000);
     cy.wait("@updateLayout");
-    //cy.openPropertyPane("tablewidget");
-    //cy.widgetText("Table1", widgetsPage.tableWidget, commonlocators.tableInner);
-
-    // cy.get(".CodeMirror textarea").click().clear().paste(jsContext);
-    // cy.get(".CodeMirror textarea").focus();
-    // cy.updateCodeInput
-
     cy.get(".t--property-control-tabledata").then(($el) => {
       cy.updateCodeInput($el, jsContext);
     });
-
-    //cy.testJsontext("tabledata", jsContext, false);
-    //cy.wait("@updateLayout");
-    // cy.wait("@updateLayout").then(({ response }) => {
-    //   cy.log("Response is :" + JSON.stringify(response.body))
-    //   //expect(response.body.data.dsl.children[1].tableData).to.eq(jsContext);
-    // });
     cy.PublishtheApp();
     cy.getTableDataSelector("0", "0").then((element) => {
       cy.get(element, { timeout: 10000 }).should("be.visible");
