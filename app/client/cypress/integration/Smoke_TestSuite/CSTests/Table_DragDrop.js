@@ -23,14 +23,13 @@ describe("Table Widget DragDrop cases", function() {
     cy.wait("@updateLayout");
     //cy.openPropertyPane("tablewidget");
     //cy.widgetText("Table1", widgetsPage.tableWidget, commonlocators.tableInner);
-    cy.testJsontext("tabledata", jsContext);
+    cy.testJsontext("tabledata", jsContext, false);
     cy.wait(2000);
     cy.wait("@updateLayout");
     // cy.wait("@updateLayout").then(({ response }) => {
     //   cy.log("Response is :" + JSON.stringify(response.body))
     //   //expect(response.body.data.dsl.children[1].tableData).to.eq(jsContext);
     // });
-    cy.wait(2000); //waiting for AutoSave & then publishing!
     cy.PublishtheApp();
     cy.wait(2000);
     cy.getTableDataSelector("0", "0").then((element) => {
@@ -64,5 +63,9 @@ describe("Table Widget DragDrop cases", function() {
       .first()
       .click()
       .wait(1000);
+
+    cy.selectEntityByName("Widgets");
+    cy.deleteEntitybyName("Switch1");
+    cy.deleteEntitybyName("Table1");
   });
 });
