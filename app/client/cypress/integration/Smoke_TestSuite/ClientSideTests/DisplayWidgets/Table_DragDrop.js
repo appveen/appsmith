@@ -1,7 +1,6 @@
-const widgetsPage = require("../../../locators/Widgets.json");
-const commonlocators = require("../../../locators/commonlocators.json");
-const publish = require("../../../locators/publishWidgetspage.json");
-const explorer = require("../../../locators/explorerlocators.json");
+const widgetsPage = require("../../../../locators/Widgets.json");
+const commonlocators = require("../../../../locators/commonlocators.json");
+const explorer = require("../../../../locators/explorerlocators.json");
 
 describe("Table Widget DragDrop cases", function() {
   it("1. Table Widget Functionality To Check with changing schema of tabledata", () => {
@@ -54,9 +53,5 @@ describe("Table Widget DragDrop cases", function() {
     cy.readTabledataPublish("0", "0").then((value) => {
       expect(value).to.be.equal("joe");
     });
-    cy.get(publish.backToEditor)
-      .first()
-      .click()
-      .wait(500);
   });
 });
