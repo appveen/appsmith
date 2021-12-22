@@ -3,8 +3,6 @@ const widgetsPage = require("../../../../locators/Widgets.json");
 const commonlocators = require("../../../../locators/commonlocators.json");
 const publish = require("../../../../locators/publishWidgetspage.json");
 const dsl = require("../../../../fixtures/tableWidgetDsl.json");
-const explorer = require("../../../../locators/explorerlocators.json");
-const homePage = require("../../../../locators/HomePage.json");
 
 describe("Table Widget Functionality", function() {
   before(() => {
@@ -361,72 +359,6 @@ describe("Table Widget Functionality", function() {
     });
   });
 */
-
-  it("10. Table Widget Functionality To Check with changing schema of tabledata", () => {
-    cy.get(publish.backToEditor)
-      .first()
-      .click()
-      .wait(500);
-    cy.NavigateToHome();
-    cy.get(homePage.createNew)
-      .first()
-      .click({ force: true });
-    cy.wait("@createNewApplication").should(
-      "have.nested.property",
-      "response.body.responseMeta.status",
-      201,
-    );
-    cy.get(".t--BuildFromScratch").click();
-    cy.get(explorer.addWidget).click();
-    cy.dragAndDropToCanvas("switchwidget", { x: 200, y: 200 });
-    cy.dragAndDropToCanvas("tablewidget", { x: 200, y: 300 });
-    cy.wait(3000);
-    cy.openPropertyPane("tablewidget");
-    cy.widgetText("Table1", widgetsPage.tableWidget, commonlocators.tableInner);
-    cy.testJsontext(
-      "tabledata",
-      `{{
-    Switch1.isSwitchedOn ? [
-        {
-          name: "joe"
-        }
-      ] : [
-        {
-          employee_name: "john"
-        }
-      ];
-  }}`,
-    );
-    cy.wait("@updateLayout");
-    cy.PublishtheApp();
-    cy.wait(2000);
-    cy.getTableDataSelector("0", "0").then((element) => {
-      cy.get(element).should("be.visible");
-    });
-    cy.readTabledataPublish("0", "0").then((value) => {
-      expect(value).to.be.equal("joe");
-    });
-    cy.get(".t--switch-widget-active")
-      .first()
-      .click();
-    cy.wait(1000);
-    cy.getTableDataSelector("0", "0").then((element) => {
-      cy.get(element).should("be.visible");
-    });
-    cy.readTabledataPublish("0", "0").then((value) => {
-      expect(value).to.be.equal("john");
-    });
-    cy.get(".t--switch-widget-inactive")
-      .first()
-      .click();
-    cy.wait(1000);
-    cy.getTableDataSelector("0", "0").then((element) => {
-      cy.get(element).should("be.visible");
-    });
-    cy.readTabledataPublish("0", "0").then((value) => {
-      expect(value).to.be.equal("joe");
-    });
-  });
 
   afterEach(() => {
     // put your clean up code if any
