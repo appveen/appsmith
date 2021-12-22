@@ -4,13 +4,14 @@ const commonlocators = require("../../../../locators/commonlocators.json");
 const publish = require("../../../../locators/publishWidgetspage.json");
 const dsl = require("../../../../fixtures/tableWidgetDsl.json");
 const explorer = require("../../../../locators/explorerlocators.json");
+const homePage = require("../../../../locators/HomePage.json");
 
 describe("Table Widget Functionality", function() {
   before(() => {
     cy.addDsl(dsl);
   });
 
-  it("Table Widget Functionality", function() {
+  it("1. Table Widget Functionality", function() {
     cy.openPropertyPane("tablewidget");
 
     /**
@@ -38,7 +39,7 @@ describe("Table Widget Functionality", function() {
     //   .should("have.text", "{{navigateTo()}}");
   });
 
-  it("Table Widget Functionality To Verify The Data", function() {
+  it("2. Table Widget Functionality To Verify The Data", function() {
     cy.readTabledataPublish("1", "3").then((tabData) => {
       const tabValue = tabData;
       expect(tabValue).to.be.equal("Lindsay Ferguson");
@@ -46,7 +47,7 @@ describe("Table Widget Functionality", function() {
     });
   });
 
-  it("Table Widget Functionality To Show a Base64 Image", function() {
+  it("3. Table Widget Functionality To Show a Base64 Image", function() {
     cy.openPropertyPane("tablewidget");
     cy.editColumn("image");
     cy.changeColumnType("Image");
@@ -59,7 +60,7 @@ describe("Table Widget Functionality", function() {
     });
   });
 
-  it("Table Widget Functionality To Search The Data", function() {
+  it("4. Table Widget Functionality To Search The Data", function() {
     cy.isSelectRow(1);
     cy.readTabledataPublish("1", "3").then((tabData) => {
       const tabValue = tabData;
@@ -92,7 +93,7 @@ describe("Table Widget Functionality", function() {
     });
   });
 
-  it("Table Widget Functionality To Filter The Data", function() {
+  it("5. Table Widget Functionality To Filter The Data", function() {
     cy.get(publish.searchInput)
       .first()
       .within(() => {
@@ -140,7 +141,7 @@ describe("Table Widget Functionality", function() {
     });
   });
 
-  it("Table Widget Functionality To Filter The Data using contains", function() {
+  it("6. Table Widget Functionality To Filter The Data using contains", function() {
     cy.isSelectRow(1);
     cy.readTabledataPublish("1", "3").then((tabData) => {
       const tabValue = tabData;
@@ -179,7 +180,7 @@ describe("Table Widget Functionality", function() {
     });
   });
 
-  it("Table Widget Functionality To Filter The Data using starts with ", function() {
+  it("7. Table Widget Functionality To Filter The Data using starts with ", function() {
     cy.isSelectRow(1);
     cy.readTabledataPublish("1", "3").then((tabData) => {
       const tabValue = tabData;
@@ -218,7 +219,7 @@ describe("Table Widget Functionality", function() {
     });
   });
 
-  it("Table Widget Functionality To Filter The Data using ends with ", function() {
+  it("8. Table Widget Functionality To Filter The Data using ends with ", function() {
     cy.isSelectRow(1);
     cy.readTabledataPublish("1", "3").then((tabData) => {
       const tabValue = tabData;
@@ -257,7 +258,7 @@ describe("Table Widget Functionality", function() {
     });
   });
 
-  it("Table Widget Functionality To Check if Table is Sortable", function() {
+  it("9. Table Widget Functionality To Check if Table is Sortable", function() {
     cy.openPropertyPane("tablewidget");
     // Confirm if isSortable is true
     cy.get(commonlocators.isSortable).should("be.checked");
@@ -361,11 +362,20 @@ describe("Table Widget Functionality", function() {
   });
 */
 
-  it("Table Widget Functionality To Check with changing schema of tabledata", () => {
-    cy.visit("/applications");
-    cy.get(".t--new-button")
+  it("10. Table Widget Functionality To Check with changing schema of tabledata", () => {
+    cy.get(publish.backToEditor)
       .first()
-      .click();
+      .click()
+      .wait(500);
+    cy.NavigateToHome();
+    cy.get(homePage.createNew)
+      .first()
+      .click({ force: true });
+    cy.wait("@createNewApplication").should(
+      "have.nested.property",
+      "response.body.responseMeta.status",
+      201,
+    );
     cy.get(".t--BuildFromScratch").click();
     cy.get(explorer.addWidget).click();
     cy.dragAndDropToCanvas("switchwidget", { x: 200, y: 200 });
@@ -376,20 +386,20 @@ describe("Table Widget Functionality", function() {
     cy.testJsontext(
       "tabledata",
       `{{
-        Switch1.isSwitchedOn ? [
-            {
-              name: "joe"
-            }
-          ] : [
-            {
-              employee_name: "john"
-            },
-          ];
-      }}`,
+    Switch1.isSwitchedOn ? [
+        {
+          name: "joe"
+        }
+      ] : [
+        {
+          employee_name: "john"
+        }
+      ];
+  }}`,
     );
     cy.wait("@updateLayout");
     cy.PublishtheApp();
-    cy.wait(3000);
+    cy.wait(2000);
     cy.getTableDataSelector("0", "0").then((element) => {
       cy.get(element).should("be.visible");
     });
@@ -405,6 +415,16 @@ describe("Table Widget Functionality", function() {
     });
     cy.readTabledataPublish("0", "0").then((value) => {
       expect(value).to.be.equal("john");
+    });
+    cy.get(".t--switch-widget-inactive")
+      .first()
+      .click();
+    cy.wait(1000);
+    cy.getTableDataSelector("0", "0").then((element) => {
+      cy.get(element).should("be.visible");
+    });
+    cy.readTabledataPublish("0", "0").then((value) => {
+      expect(value).to.be.equal("joe");
     });
   });
 

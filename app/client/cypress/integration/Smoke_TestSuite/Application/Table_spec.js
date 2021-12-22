@@ -416,7 +416,7 @@ describe("Table Widget Functionality", function() {
     cy.readTabledataPublish("0", "0").then((value) => {
       expect(value).to.be.equal("john");
     });
-    cy.get(".t--switch-widget-active")
+    cy.get(".t--switch-widget-inactive")
       .first()
       .click();
     cy.wait(1000);
