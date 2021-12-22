@@ -382,7 +382,7 @@ describe("Table Widget Functionality", function() {
     cy.dragAndDropToCanvas("tablewidget", { x: 200, y: 300 });
     cy.wait(3000);
     cy.openPropertyPane("tablewidget");
-    cy.widgetText("Table1", widgetsPage.tableWidget, commonlocators.tableInner);
+    cy.widgetText("Table2", widgetsPage.tableWidget, commonlocators.tableInner);
     cy.testJsontext(
       "tabledata",
       `{{
