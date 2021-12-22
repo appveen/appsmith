@@ -39,8 +39,7 @@ describe("Table Widget DragDrop cases", function() {
     //   //expect(response.body.data.dsl.children[1].tableData).to.eq(jsContext);
     // });
     cy.PublishtheApp();
-    cy.wait(2000);
-    cy.getTableDataSelector("0", "0").then((element) => {
+    cy.getTableDataSelector("0", "0", { timeout: 10000 }).then((element) => {
       cy.get(element).should("be.visible");
     });
     cy.readTabledataPublish("0", "0").then((value) => {
@@ -50,7 +49,7 @@ describe("Table Widget DragDrop cases", function() {
       .first()
       .click();
     cy.wait(1000);
-    cy.getTableDataSelector("0", "0").then((element) => {
+    cy.getTableDataSelector("0", "0", { timeout: 10000 }).then((element) => {
       cy.get(element).should("be.visible");
     });
     cy.readTabledataPublish("0", "0").then((value) => {
@@ -60,7 +59,7 @@ describe("Table Widget DragDrop cases", function() {
       .first()
       .click();
     cy.wait(1000);
-    cy.getTableDataSelector("0", "0").then((element) => {
+    cy.getTableDataSelector("0", "0", { timeout: 10000 }).then((element) => {
       cy.get(element).should("be.visible");
     });
     cy.readTabledataPublish("0", "0").then((value) => {
